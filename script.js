@@ -35,19 +35,20 @@ class UIController {
     constructor(invitation) {
         this.invitation = invitation;
         this.app = document.getElementById("app");
+        this.starSymbols = ['★', '✦', '✶', '✷']; // literal stars
     }
 
     render() {
         const card = this.invitation.createCard();
         this.app.appendChild(card);
         this.addEvents(card);
+        this.addStars(150); // add 150 literal stars
     }
 
     addEvents(card) {
         const yesBtn = card.querySelector(".yes");
         const noBtn = card.querySelector(".no");
 
-        // YES button
         yesBtn.addEventListener("click", () => {
             card.innerHTML = `
                 <h1>✨ You just made me really happy ✨</h1>
@@ -56,10 +57,9 @@ class UIController {
             `;
         });
 
-        // NO button: super fast evasive
         noBtn.addEventListener("mouseenter", () => this.evadeButton(noBtn));
-        noBtn.addEventListener("click", (e) => {
-            e.preventDefault(); // prevent accidental click
+        noBtn.addEventListener("click", e => {
+            e.preventDefault();
             this.evadeButton(noBtn);
         });
     }
@@ -69,13 +69,26 @@ class UIController {
         const maxX = parent.offsetWidth - button.offsetWidth;
         const maxY = parent.offsetHeight - button.offsetHeight;
 
-        // bigger random jump for faster evasive
         const randomX = Math.floor(Math.random() * maxX);
         const randomY = Math.floor(Math.random() * maxY);
 
         button.style.position = "absolute";
         button.style.left = `${randomX}px`;
         button.style.top = `${randomY}px`;
+    }
+
+    addStars(count) {
+        for (let i = 0; i < count; i++) {
+            const star = document.createElement("div");
+            star.className = "star";
+            star.textContent = this.starSymbols[Math.floor(Math.random() * this.starSymbols.length)];
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            star.style.fontSize = `${Math.random() * 14 + 6}px`;
+            star.style.animationDuration = `${Math.random() * 2 + 1}s`;
+            star.style.animationDelay = `${Math.random() * 3}s`;
+            document.body.appendChild(star);
+        }
     }
 }
 
