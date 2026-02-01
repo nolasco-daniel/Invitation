@@ -80,6 +80,6 @@ class UIController {
 }
 
 // START APP
-const invite = new Invitation("Ayheca", "HO!HO!HO!HO!");
+const invite = new Invitation("Ayheca", "HO!HO!HO!HO!HO!");
 const ui = new UIController(invite);
 ui.render();
